@@ -1,46 +1,39 @@
+import { useState } from "react";
+import Chat from "./components/Chat";
+
 export default function App() {
+  const replies = ["Hello", "I am Fine", "Okay Good Bye"];
+
+  const [chats, setChats] = useState([]);
+
+  const [text, setText] = useState("");
   return (
-    <div>
+    <div className="p-10">
       {/* Chats */}
-      <div>
-        <div className="chat chat-start">
-          <div className="chat-image avatar">
-            <div className="w-10 rounded-full">
-              <h1>ss</h1>
-            </div>
-          </div>
-          <div className="chat-bubble">
-            It was said that you would, destroy the Sith, not join them.
-          </div>
-        </div>
-        <div className="chat chat-start">
-          <div className="chat-image avatar">
-            <div className="w-10 rounded-full">
-              <h1>ss</h1>
-            </div>
-          </div>
-          <div className="chat-bubble">
-            It was you who would bring balance to the Force
-          </div>
-        </div>
-        <div className="chat chat-start">
-          <div className="chat-image avatar">
-            <div className="w-10 rounded-full">
-              <h1>ss</h1>
-            </div>
-          </div>
-          <div className="chat-bubble">Not leave it in Darkness</div>
-        </div>
-      </div>
+      {chats.map((item, i) => {
+        return <Chat req={item} res={replies[i % 3]} />;
+      })}
+
       {/* Submit Text */}
-      <div className="flex justify-center items-center gap-5">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          setChats([...chats, text]);
+          setText("");
+        }}
+        className="flex justify-center items-center gap-5"
+      >
         <input
           type="text"
-          placeholder="Type here"
+          placeholder="Type a Message"
           className="input input-bordered w-full max-w-xs"
+          onChange={(e) => setText(e.target.value)}
+          value={text}
         />
-        <button className="btn btn-outline btn-success">Send</button>
-      </div>
+        <button type="submit" className="btn btn-outline btn-success">
+          Send
+        </button>
+      </form>
     </div>
   );
 }
